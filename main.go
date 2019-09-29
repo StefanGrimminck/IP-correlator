@@ -13,7 +13,7 @@ import (
 type host struct {
 	IPv4      string
 	IPv6      string
-	hostname  string
+	Hostname  string
 	IPv4Ports []int
 	IPV6Ports []int
 	next      *host
