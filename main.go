@@ -20,7 +20,12 @@ type host struct {
 }
 
 func main() {
-	al := genHostList("NL_IPv6.csv")
+	if len(os.Args) < 2 {
+		fmt.Println("Missing parameter. Provide Shodan csv export file.")
+		return
+	}
+
+	al := genHostList(os.Args[1])
 
 	for p := al; p.next != nil; p = p.next {
 		fmt.Printf("IPv4: %v, IPv6: %v, Hostname: %v\n", p.IPv4, p.IPv6, p.hostname)
@@ -47,7 +52,7 @@ func enrich(i *host) bool {
 		return false
 	}
 
-	for _, a := range (IP) {
+	for _, a := range IP {
 		netA := net.ParseIP(a)
 
 		if netA.To4() != nil {
