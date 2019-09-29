@@ -28,7 +28,7 @@ func main() {
 	al := genHostList(os.Args[1])
 
 	for p := al; p.next != nil; p = p.next {
-		fmt.Printf("IPv4: %v, IPv6: %v, Hostname: %v\n", p.IPv4, p.IPv6, p.hostname)
+		fmt.Printf("IPv4: %v, IPv6: %v, Hostname: %v\n", p.IPv4, p.IPv6, p.Hostname)
 	}
 }
 
@@ -37,16 +37,16 @@ func enrich(i *host) bool {
 		return false
 	}
 
-	if i.hostname == "" {
+	if i.Hostname == "" {
 		record, err := net.LookupAddr(i.IPv6)
 		if err != nil || len(record) == 0 {
 			return false
 		}
-		i.hostname = record[0]
+		i.Hostname = record[0]
 	}
 
 	//Get IPv4 from hostname
-	IP, err := net.LookupHost(i.hostname)
+	IP, err := net.LookupHost(i.Hostname)
 
 	if err != nil {
 		return false
@@ -82,7 +82,7 @@ func genHostList(fileName string) *host {
 		}
 		temp := host{
 			IPv6:     record[0],
-			hostname: record[4],
+			Hostname: record[4],
 		}
 
 		if OK := enrich(&temp); OK {
